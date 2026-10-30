@@ -12,9 +12,12 @@ export type DigestRow = {
   lastAt: string; // latest `at`
 };
 
+export type StatusCounts = { ok: number; retry: number; fail: number };
+
 export type Night = {
   night: string;
   rows: DigestRow[]; // sorted by job
+  counts: StatusCounts; // events by status, for the board (bad lines excluded)
   badLines: number; // lines that didn't parse, counted not thrown
 };
 

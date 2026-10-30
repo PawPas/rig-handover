@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { DigestRow, JobStatus, Night } from './types.js';
+import type { DigestRow, JobStatus, Night, StatusCounts } from './types.js';
 
 const STATUSES: ReadonlySet<string> = new Set(['ok', 'retry', 'fail']);
 
@@ -66,12 +66,17 @@ export function readNight(runsDir: string, night: string): Night | null {
     return null;
   }
   const lines: Line[] = [];
+  const counts: StatusCounts = { ok: 0, retry: 0, fail: 0 };
   let badLines = 0;
   for (const raw of text.split('\n')) {
     if (raw.trim() === '') continue;
     const parsed = parseLine(raw);
-    if (parsed) lines.push(parsed);
-    else badLines += 1;
+    if (parsed) {
+      lines.push(parsed);
+      counts[parsed.status] += 1;
+    } else {
+      badLines += 1;
+    }
   }
-  return { night, rows: fold(lines), badLines };
+  return { night, rows: fold(lines), counts, badLines };
 }
