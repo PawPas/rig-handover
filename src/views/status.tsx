@@ -1,4 +1,14 @@
-import type { Status } from '../status.js';
+import type { NightSummary, Status } from '../status.js';
+
+function NightItem({ n }: { n: NightSummary }) {
+  return (
+    <li>
+      <a href={`/digest/${n.night}`}>{n.night}</a>
+      {' '}
+      <span class="mute">ok {n.counts.ok} · retry {n.counts.retry} · fail {n.counts.fail}</span>
+    </li>
+  );
+}
 
 export function StatusBoard({ status }: { status: Status }) {
   return (
@@ -20,7 +30,7 @@ export function StatusBoard({ status }: { status: Status }) {
       ) : (
         <ul>
           {status.nights.map((n) => (
-            <li>{n}</li>
+            <NightItem n={n} />
           ))}
         </ul>
       )}
