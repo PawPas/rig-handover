@@ -9,6 +9,8 @@ Read first: `docs/vision.md`, `docs/styleguide.md`. Decisions: `docs/adr/`.
 
 - `pnpm dev` / `pnpm start`: serves on `PORT` (8787). Needs `.env` (copy `.env.example`).
 - `pnpm test`: vitest. `pnpm typecheck`: tsc.
+- This repo is pnpm-native (see `pnpm-workspace.yaml`). Use pnpm (via `corepack enable`), not npm:
+  npm's peer resolver chokes on the dep tree and leaves vitest without `vite`.
 
 ## How work moves here
 
